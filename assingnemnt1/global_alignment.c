@@ -26,9 +26,11 @@ main()
 { 
 	int	i, j;
 	int	m, n;
+	int	barIndex;
 	int	alignmentLength, score, tmp;
 	char	X[MAX_LENGTH+1] = "ATCGAT";
 	char	Y[MAX_LENGTH+1] = "ATACGT";
+	char	bars[MAX_LENGTH+1];
 
 	int	F[MAX_LENGTH+1][MAX_LENGTH+1];		/* score matrix */
 	int	trace[MAX_LENGTH+1][MAX_LENGTH+1];	/* trace matrix */
@@ -48,6 +50,10 @@ main()
 		n++;
 	}
 
+	barIndex = n;
+	if(m>n) {
+		barIndex = m;
+	}
 
 	/*
 	 * Initialise matrices
@@ -127,7 +133,7 @@ main()
 	i = m;
 	j = n;
 	alignmentLength = 0;
-
+	
 
 
 	while ( trace[i][j] != STOP ) {
@@ -139,21 +145,27 @@ main()
 				alignY[alignmentLength] = Y[j-1];
 				i--;
 				j--;
+				bars[barIndex] = '|';
 				alignmentLength++;
+				barIndex--;
 				break;
 
 			case LEFT:
 				alignX[alignmentLength] = '-';
 				alignY[alignmentLength] = Y[j-1];
 				j--;
+				bars[barIndex] = ' ';
 				alignmentLength++;
+				barIndex--;
 				break;
 
 			case UP:
 				alignX[alignmentLength] = X[i-1];
 				alignY[alignmentLength] = '-';
 				i--;
+				bars[barIndex] = ' ';
 				alignmentLength++;
+				barIndex--;
 		}
 	}
 
@@ -184,7 +196,7 @@ main()
 	for ( i=alignmentLength-1 ; i>=0 ; i-- ) {
 		printf("%c",alignX[i]);
 	}
-	printf("\n");
+	printf("\n%s\n", bars);
 	for ( i=alignmentLength-1 ; i>=0 ; i-- ) {
 		printf("%c",alignY[i]);
 	}
