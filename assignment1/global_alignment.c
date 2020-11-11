@@ -29,8 +29,8 @@ int main() {
   int barIndex, matchingChars = 0, percentNom, hamming = 0;
   int alignmentLength, score, tmp;
   int maxLength, minLength;
-  char X[MAX_LENGTH + 1] = "ATCGAT";
-  char Y[MAX_LENGTH + 1] = "ATACGT";
+  char X[MAX_LENGTH + 1] = "ATTA";
+  char Y[MAX_LENGTH + 1] = "ATTTTA";
   char bars[MAX_LENGTH + 1];
 
   int F[MAX_LENGTH + 1][MAX_LENGTH + 1];     /* score matrix */
