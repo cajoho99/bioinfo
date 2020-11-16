@@ -87,7 +87,7 @@ int main() {
   /*
    * Print score matrix
    */
-
+  printf("----- levenshtein.c ----- \n");
   printf("Score matrix:\n      ");
   for (j = 0; j < n; ++j) {
     printf("%5c", Y[j]);

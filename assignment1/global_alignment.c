@@ -29,8 +29,9 @@ int main() {
   int barIndex, matchingChars = 0, percentNom, hamming = 0;
   int alignmentLength, score, tmp;
   int maxLength, minLength;
-  char X[MAX_LENGTH + 1] = "ATTA";
-  char Y[MAX_LENGTH + 1] = "ATTTTA";
+  int branches = 0;
+  char X[MAX_LENGTH + 1] = "ATCGAT";
+  char Y[MAX_LENGTH + 1] = "ATACGT";
   char bars[MAX_LENGTH + 1];
 
   int F[MAX_LENGTH + 1][MAX_LENGTH + 1];     /* score matrix */
@@ -58,6 +59,8 @@ int main() {
     maxLength = n;
   }
   barIndex = maxLength;
+  // I chose to use the method of calculating the percent where you chose
+  // the length of the shortest string as the denominator
   percentNom = minLength;
 
   /*
@@ -94,12 +97,17 @@ int main() {
       if (tmp > score) {
         score = tmp;
         trace[i][j] = UP;
+      } else if(tmp == score) {
+        branches++;
       }
+
 
       tmp = F[i][j - 1] - GAP_PENALTY;
       if (tmp > score) {
         score = tmp;
         trace[i][j] = LEFT;
+      } else if(tmp == score) {
+        branches++;
       }
 
       F[i][j] = score;
@@ -109,7 +117,7 @@ int main() {
   /*
    * Print score matrix
    */
-
+  printf("------ global_alignment.c -----\n");
   printf("Score matrix:\n      ");
   for (j = 0; j < n; ++j) {
     printf("%5c", Y[j]);
@@ -122,7 +130,7 @@ int main() {
       printf("%c", X[i - 1]);
     }
     for (j = 0; j <= n; j++) {
-      printf("%5d", F[i][j]);
+      printf("%5d", trace[i][j]);
     }
     printf("\n");
   }
@@ -167,6 +175,7 @@ int main() {
       bars[barIndex] = ' ';
       alignmentLength++;
       barIndex--;
+      break;
     }
   }
 
@@ -210,13 +219,18 @@ int main() {
   for (i = alignmentLength - 1; i >= 0; i--) {
     printf("%c", alignX[i]);
   }
-  printf("\n%s\n", bars);
+  printf("\n");
+  for (i = 0; i < alignmentLength; i++) {
+   printf("%c", bars[i]);
+  }
+  printf("\n");
   for (i = alignmentLength - 1; i >= 0; i--) {
     printf("%c", alignY[i]);
   }
   printf("\n");
   printf("%d%s\n", matchingChars, " matching characters");
   printf("%d%s\n", p_identity, "% percent identity");
-  printf("%d%s", hamming, " hamming distance");
+  printf("%d%s\n", hamming, " hamming distance");
+  //printf("%d%s", branches / 2, " different optimal paths");
   return (1);
 }
