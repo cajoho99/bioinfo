@@ -47,7 +47,7 @@
 
 CFLAGS= -Wall -g
 
-all:	pdb_io atom_array residue_array
+all:	pdb_io atom_array residue_array make_distance_map
 
 pdb_io:	pdb_io.c
 	gcc $(CFLAGS) -o pdb_io pdb_io.c
@@ -58,7 +58,11 @@ atom_array:	atom_array.c
 residue_array:	residue_array.c
 	gcc $(CFLAGS) -o residue_array residue_array.c
 
+make_distance_map: make_distance_map.c
+	gcc $(CFLAGS) -o make_distance_map make_distance_map.c -lm 
+
 clean:
 	rm -f pdb_io
 	rm -f atom_array
 	rm -f residue_array
+	rm -f make_distance_map
