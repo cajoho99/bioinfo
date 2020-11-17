@@ -47,22 +47,14 @@
 
 CFLAGS= -Wall -g
 
-all:	pdb_io atom_array residue_array make_distance_map
+all:	 out/make_distance_map out/domain_partition
 
-pdb_io:	pdb_io.c
-	gcc $(CFLAGS) -o pdb_io pdb_io.c
+out/make_distance_map: src/make_distance_map.c
+	gcc $(CFLAGS) src/make_distance_map.c -o make_distance_map -lm 
 
-atom_array:	atom_array.c
-	gcc $(CFLAGS) -o atom_array atom_array.c
-
-residue_array:	residue_array.c
-	gcc $(CFLAGS) -o residue_array residue_array.c
-
-make_distance_map: make_distance_map.c
-	gcc $(CFLAGS) -o make_distance_map make_distance_map.c -lm 
+out/domain_partition: src/domain_partition.c
+	gcc $(CFLAGS) src/domain_partition.c -o domain_partition  -lm
 
 clean:
-	rm -f pdb_io
-	rm -f atom_array
-	rm -f residue_array
+	rm -f domain_partition
 	rm -f make_distance_map

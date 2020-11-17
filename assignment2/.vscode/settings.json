@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "condition_variable": "c",
+        "tuple": "c",
+        "variant": "c"
+    }
+}
