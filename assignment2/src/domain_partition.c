@@ -1,6 +1,7 @@
 /*
- * File:	residue_array.c
- * Purpose:	Read PDB atom records into an array of "residue" structures.
+ * File:	domain_partition.c
+ * Author	Carl Holmberg
+ * Purpose:	Partitions a protein chain into two parts with parts of the DOMAK algorithm 
  */
 
 #include <stdio.h>
@@ -14,7 +15,7 @@
 
 //#define DEBUG 1
 //#define GRAPH 1
-#define RESULT 1
+//#define RESULT 1
 
 typedef struct
 {

@@ -1,6 +1,7 @@
 /*
- * File:	atom_array.c
- * Purpose:	Read PDB atom records into an array of "atom" structures.
+ * File:	make_distance_map.c
+ * Author:      Carl Holmberg
+ * Purpose:	Creates a distance map.
  */
 
 #include <stdio.h>
