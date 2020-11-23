@@ -1,0 +1,296 @@
+$ make
+gcc -Wall -g src/make_distance_map.c -o make_distance_map -lm 
+gcc -Wall -g -D RESULT src/domain_partition.c -o domain_partition  -lm
+gcc -Wall -g src/strudl_domain_partition.c -o strudl -lm
+
+$ ./make_distance_map data/1cdh.pdb > out/1cdh.pairs
+$ ./make_distance_map data/2csn.pdb > out/2csn.pairs
+
+$ pip3 install matplotlib
+
+$ python3 display_scripts/dotplot.py out/1cdh.pairs
+$ python3 display_scripts/dotplot.py out/2csn.pairs
+
+$ ./domain_partition data/1cdh.pdb
+Split Residue: 97
+
+$ ./domain_partition data/2csn.pdb
+Split Residue: 210
+
+$ make domain_partition_graph
+gcc -Wall -g -D GRAPH src/domain_partition.c -o domain_partition  -lm
+./domain_partition ./data/1cdh.pdb > ./out/1cdh.map
+./domain_partition ./data/2csn.pdb > ./out/2csn.map
+python3 ./display_scripts/graph_split.py ./out/1cdh.map &
+python3 ./display_scripts/graph_split.py ./out/2csn.map &
+
+$ ./strudl data/1cdh.pdb 
+k [1] | val [5]
+k [2] | val [7]
+k [3] | val [11]
+k [4] | val [11]
+k [5] | val [14]
+k [6] | val [18]
+k [7] | val [21]
+k [8] | val [22]
+k [9] | val [27]
+k [10] | val [30]
+k [11] | val [34]
+k [12] | val [40]
+k [13] | val [37]
+k [14] | val [38]
+k [15] | val [42]
+k [16] | val [45]
+k [17] | val [47]
+k [18] | val [49]
+k [19] | val [50]
+k [20] | val [50]
+k [21] | val [53]
+k [22] | val [54]
+k [23] | val [55]
+k [24] | val [57]
+k [25] | val [65]
+k [26] | val [67]
+k [27] | val [70]
+k [28] | val [73]
+k [29] | val [76]
+k [30] | val [80]
+k [31] | val [51]
+k [32] | val [80]
+k [33] | val [80]
+k [34] | val [78]
+k [35] | val [77]
+k [36] | val [81]
+k [37] | val [78]
+k [38] | val [77]
+k [39] | val [77]
+k [40] | val [77]
+k [41] | val [79]
+k [42] | val [78]
+k [43] | val [68]
+k [44] | val [78]
+k [45] | val [94]
+k [46] | val [83]
+k [47] | val [79]
+k [48] | val [80]
+k [49] | val [83]
+k [50] | val [82]
+k [51] | val [81]
+k [52] | val [78]
+k [53] | val [76]
+k [54] | val [77]
+k [55] | val [79]
+k [56] | val [89]
+k [57] | val [82]
+k [58] | val [87]
+k [59] | val [90]
+k [60] | val [52]
+k [61] | val [92]
+k [62] | val [100]
+k [63] | val [94]
+k [64] | val [97]
+k [65] | val [89]
+k [66] | val [81]
+k [67] | val [78]
+k [68] | val [76]
+k [69] | val [94]
+k [70] | val [71]
+k [71] | val [76]
+k [72] | val [77]
+k [73] | val [73]
+k [74] | val [73]
+k [75] | val [90]
+k [76] | val [74]
+k [77] | val [64]
+k [78] | val [60]
+k [79] | val [58]
+k [80] | val [55]
+k [81] | val [51]
+k [82] | val [56]
+k [83] | val [43]
+k [84] | val [44]
+k [85] | val [46]
+k [86] | val [43]
+k [87] | val [42]
+k [88] | val [42]
+k [89] | val [42]
+
+
+Index: 1 | Value: 5
+   A    B
+   0    1
+  88    2
+ 123    3
+   0    4
+   0    5
+   0    6
+   0    7
+   0    8
+   0    9
+   0   10
+   0   11
+   0   12
+   0   13
+   0   14
+   0   15
+   0   16
+   0   17
+   0   18
+   0   19
+   0   20
+   0   21
+   0   22
+   0   23
+   0   24
+   0   25
+   0   26
+   0   27
+   0   28
+   0   29
+   0   30
+   0   31
+   0   32
+   0   33
+   0   34
+   0   35
+   0   36
+   0   37
+   0   38
+   0   39
+   0   40
+   0   41
+   0   42
+   0   43
+   0   44
+   0   45
+   0   46
+   0   47
+   0   48
+   0   49
+   0   50
+   0   51
+   0   52
+   0   53
+   0   54
+   0   55
+   0   56
+   0   57
+   0   58
+   0   59
+   0   60
+   0   61
+   0   62
+   0   63
+   0   64
+   0   65
+   0   66
+   0   67
+   0   68
+   0   69
+   0   70
+   0   71
+   0   72
+   0   73
+   0   74
+   0   75
+   0   76
+   0   77
+   0   78
+   0   79
+   0   80
+   0   81
+   0   82
+   0   83
+   0   84
+   0   85
+   0   86
+   0   87
+   0   89
+   0   90
+   0   91
+   0   92
+   0   93
+   0   94
+   0   95
+   0   96
+   0   97
+   0   98
+   0   99
+   0  100
+   0  101
+   0  102
+   0  103
+   0  104
+   0  105
+   0  106
+   0  107
+   0  108
+   0  109
+   0  110
+   0  111
+   0  112
+   0  113
+   0  114
+   0  115
+   0  116
+   0  117
+   0  118
+   0  119
+   0  120
+   0  121
+   0  122
+   0  124
+   0  125
+   0  126
+   0  127
+   0  128
+   0  129
+   0  130
+   0  131
+   0  132
+   0  133
+   0  134
+   0  135
+   0  136
+   0  137
+   0  138
+   0  139
+   0  140
+   0  141
+   0  142
+   0  143
+   0  144
+   0  145
+   0  146
+   0  147
+   0  148
+   0  149
+   0  150
+   0  151
+   0  152
+   0  153
+   0  154
+   0  155
+   0  156
+   0  157
+   0  158
+   0  159
+   0  160
+   0  161
+   0  162
+   0  163
+   0  164
+   0  165
+   0  166
+   0  167
+   0  168
+   0  169
+   0  170
+   0  171
+   0  172
+   0  173
+   0  174
+   0  175
+   0  176
+   0  177
+   0  178

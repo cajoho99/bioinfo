@@ -148,7 +148,7 @@ int read_data(char *filename)
 void print_result(int numResidues)
 {
 	int i = 0, j = 0;
-	printf("\n\n ------------ RESULT ------------\n   A    B\n");
+	printf("   A    B\n");
 	while (i <= numResidues || j <= numResidues)
 	{
 		while (resA[i] == 0 && i <= numResidues)
@@ -389,6 +389,7 @@ double calculate_partitions(int k, int numResidues)
 			resA[i] = 0;
 		}
 	}
+	//print_result(numResidues);
 	// Return contact area.
 	return contact_area(numResidues);
 }
@@ -414,19 +415,19 @@ int main(int argc, char **argv)
 	int minValue = 100000000;
 	for (int i = 1; i <= numResidues / 2; i++)
 	{
-		int val = calculate_partitions(i, numResidues) / i;
-		//printf("k [%d] | val [%d]\n", i, val);
-		printf("%d %d\n", i, val);
+		int val = calculate_partitions(i, numResidues);
+		printf("k [%d] | val [%d]\n", i, val);
+		//printf("%d %d\n", i, val);
 		if (val < minValue)
 		{
 			minValue = val;
 			minIndex = i;
 		}
 	}
-	//printf("Index: %d | Value: %d\n", minIndex, minValue);
+	printf("\n\nIndex: %d | Value: %d\n", minIndex, minValue);
 
 	calculate_partitions(minIndex, numResidues);
-	//print_result(numResidues);
+	print_result(numResidues);
 	//int val = calculate_partitions(50, numResidues);
 	//printf("VAL: %d", val);
 	return 0;
