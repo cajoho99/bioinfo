@@ -160,6 +160,13 @@ int within_threshold(Point a, Point b)
         return distance < THRESHOLD;
 }
 
+int distance(Point a, Point b)
+{
+        double distance = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
+        //printf("VALUE: %f\n", distance);
+        return distance;
+}
+
 void calculate_pairs(int numAtoms)
 {
         for (int i = 1; i <= numAtoms; ++i)
@@ -170,7 +177,8 @@ void calculate_pairs(int numAtoms)
                                 continue;
                         if (within_threshold(atom[i].centre, atom[j].centre))
                         {
-                                printf("%d %d\n", atom[i].resSeq, atom[j].resSeq);
+                                double dist = distance(atom[i].centre, atom[j].centre);
+                                printf("%d %d %f\n", atom[i].resSeq, atom[j].resSeq, dist);
                         }
                 }
         }
