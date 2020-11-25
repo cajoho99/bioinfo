@@ -3,12 +3,6 @@ import matplotlib.pyplot as plt
 import sys
 import numpy as np
 
-#
-# Author: Carl Holmberg
-# File: identify_order.py
-# Purpose: identifies a main chain of a protein from a collection of alpha carbon atoms
-#
-
 
 class Atom(object):
     def __init__(self, serial=None, x=0, y=0, z=0):
@@ -35,27 +29,85 @@ def process_input(lines):
         coords = data[1].split(" ")
         atom = Atom(seq, float(coords[0]), float(coords[1]), float(coords[2]))
         atoms.append(atom)
-    result = identify_order(atoms)
-    for r in result:
-        print(r)
-    print("Total alpha carbon atoms: " + str(len(result)))
+    alpha_carbon = from_seq_to_atoms(filter_atoms(atoms), atoms)
+    filtered = any_legal(alpha_carbon, atoms)
+    print("any legal: ")
+    print(filtered)
+    result = identify_order(filtered)
     plot_result(atoms, result)
 
 
 def within_distance_of(dist, size, diff):
-    return dist < size+diff and dist > size-diff
+    return dist > 0.0001 and dist < size+diff and dist > size-diff
+
+
+def any_within_distance(atom, atoms):
+    for a in atoms:
+        if within_distance_of(atom.distance(a), 3.8, 0.1):
+            return True
+    return False
+
+
+def any_legal(candidates, atoms):
+    out = []
+    for i in candidates:
+        for j in candidates:
+            if i != j:
+                print("i.serial: " + str(i.serial) +
+                      " j.serial: " + str(j.serial))
+                center = (i.x + (i.x - j.x) / 2, i.y +
+                          (i.y - j.y) / 2, i.z + (i.z - j.z) / 2)
+                a_from = atoms_from(center, 3.8, atoms)
+                if(len(a_from) > 4):
+                    if i.serial not in out:
+                        out.append(i.serial)
+                    if j.serial not in out:
+                        out.append(j.serial)
+
+
+def atoms_from(xyz, r, atoms):
+    out = []
+    for a in atoms:
+        if distance_to(xyz[0], xyz[1], xyz[2], a) < r:
+            out.append(a)
+    return out
+
+
+def distance_to(x, y, z, atom):
+    return np.sqrt(np.power(x - atom.x, 2) +
+                   np.power(y - atom.y, 2) +
+                   np.power(z - atom.z, 2))
+
+
+def filter_atoms(atoms):
+    return [a.serial for a in atoms if any_within_distance(a, atoms)]
+
+
+def from_seq_to_atoms(seq, atoms):
+    return [atoms[s-1] for s in seq]
 
 
 def find_start_index(atoms):
     size = 3.8
     diff = 0.1
-    combinations = [0 for _ in range(len((atoms)))]
+    combinations = [0 for _ in range(len(atoms))]
     for i in range(len(atoms)):
         for j in range(i, len(atoms)):
             if i != j and within_distance_of(atoms[i].distance(atoms[j]), size, diff):
                 combinations[i] += 1
                 combinations[j] += 1
     return [i for i in range(len(combinations)) if combinations[i] == 1]
+
+
+def search_atom(atoms, current, excluded):
+    for atom in atoms:
+        print("c")
+        if atom.serial not in excluded:
+            print("a")
+            if within_distance_of(current.distance(atom), 3.8, 0.1):
+                print("b")
+                return (True, atom)
+    return (False, current)
 
 
 def identify_order(atoms):
@@ -65,16 +117,18 @@ def identify_order(atoms):
 
     visited = [atoms[root_index].serial]
     current = atoms[root_index]
-    while len(visited) != len(atoms):
-        for atom in atoms:
-            if atom.serial not in visited and within_distance_of(current.distance(atom), 3.8, 0.1):
-                visited.append(atom.serial)
-                current = atom
+    while (len(visited) != len(atoms)):
+        res = search_atom(atoms, current, visited)
+        if res[0]:
+            visited.append(res[1].serial)
+            current = res[1]
 
     return visited
 
 
 def plot_result(atoms, result):
+    print("number of residues: " + str(len(result)))
+
     x = []
     y = []
     z = []
