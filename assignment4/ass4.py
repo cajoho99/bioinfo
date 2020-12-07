@@ -107,11 +107,11 @@ def search_area(ds, b_x, b_y, b_z, atom):
     #print("d_x: " + str(d_x) + " | d_y: " + str(d_y) + " | d_z: " + str(d_z))
 
 
-
-    for x in range(-search_range, search_range):
-        for y in range(-search_range, search_range):
-            for z in range(-search_range, search_range):
-                if not ((x == y and y == z) and (x == search_range or x == -search_range)):
+    
+    for x in [0,1,-1,2,-2,3,-3,4,-4]:
+        for y in [0,1,-1,2,-2,3,-3,4,-4]:
+            for z in [0,1,-1,2,-2,3,-3,4,-4]:
+                if not ((x == y and y == z) and (x == 4 or x == -4)):
                     if b_x+x>= 0 and b_x+x < d_x and b_y+y >= 0 and b_y+y < d_y and b_y+y >= 0 and b_z+z < d_z:
                         #print(str(b_x+x), str(b_y+y), str(b_z+z))
                         current = ds[b_x+x][b_y+y][b_z+z]
@@ -126,7 +126,7 @@ def search_area(ds, b_x, b_y, b_z, atom):
         #print(p)
         d = atom.point.distance_to(p)
         #print("Distance for atom " + str(atom.atom_nr) + " was " + str(d))
-        if d <= search_range:
+        if d <= 4:
             return atom.atom_nr
         else:
             counter += 1
