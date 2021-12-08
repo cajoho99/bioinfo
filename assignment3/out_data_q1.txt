@@ -1,0 +1,11 @@
+2
+1
+10
+5
+7
+6
+4
+3
+9
+8
+Total alpha carbon atoms: 10

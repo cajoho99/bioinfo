@@ -6,8 +6,8 @@ import numpy as np
 
 #
 # Author: Carl Holmberg
-# File: identify_order.py
-# Purpose: identifies a main chain of a protein from a collection of alpha carbon atoms
+# File: identify_collision.py
+# Purpose: identifies the two collidiing atoms between two pdb files.
 #
 
 first = []
@@ -33,7 +33,7 @@ class Atom(object):
         self.atom_nr = atom_nr
         self.point = point
 
-def process_input(lines):
+def build_array(lines):
     min_x = 1000000000
     max_x = -1000000000
     min_y = 1000000000
@@ -77,16 +77,16 @@ def process_input(lines):
 
             #print(str(int_x), str(int_y), str(int_z))
 
-    print("min_x:" + str(min_x) + " | max_x: " + str(max_x))
-    print("min_y:" + str(min_y) + " | max_y: " + str(max_y))
-    print("min_z:" + str(min_z) + " | max_z: " + str(max_z))
+    #print("min_x:" + str(min_x) + " | max_x: " + str(max_x))
+    #print("min_y:" + str(min_y) + " | max_y: " + str(max_y))
+    #print("min_z:" + str(min_z) + " | max_z: " + str(max_z))
 
     x_offset = 0 - min_x
     y_offset = 0 - min_y
     z_offset = 0 - min_z
     
-    print("x_offset: ", str(x_offset), " | y_offset: ", str(y_offset), " | z_offset: ", str(z_offset))
-    print("number of atoms in first file:", str(len(atoms)))
+    #print("x_offset: ", str(x_offset), " | y_offset: ", str(y_offset), " | z_offset: ", str(z_offset))
+    #print("number of atoms in first file:", str(len(atoms)))
 
     ds = [[[[] for _ in range(min_z+z_offset, max_z+z_offset+1)] for _ in range(min_y+y_offset, max_y+y_offset+1)] for _ in range(min_x + x_offset, max_x + x_offset+1)]
     for (x, y, z, p) in atoms:
@@ -172,15 +172,16 @@ def plot_debug():
 
 
 with open(sys.argv[1], 'r') as input_file:
-    processed = process_input(input_file.readlines())
+    processed = build_array(input_file.readlines())
     ds = processed[0]
     o_x = processed[1]
     o_y = processed[2]
     o_z = processed[3]
     with open(sys.argv[2], 'r') as comp_file:
-        var = find_collisions(comp_file.readlines(), ds, o_x, o_y, o_z)
-        print(var)
-        print("Len: " + str(len(var)))
+        result = find_collisions(comp_file.readlines(), ds, o_x, o_y, o_z)
+        for res in result:
+            print(res)
+        print("Collisions: " + str(len(result)))
         print("Comparisons: " + str(comparisons))
-        print("Bad comparisons: " + str(counter))
-        #plot_debug()
+        #print("Bad comparisons: " + str(counter))
+        plot_debug()
